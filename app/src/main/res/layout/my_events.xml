@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/tool_bar"
+        >
+
+    </include>
+
+    <HorizontalScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/backrepeat"
+        android:id="@+id/horizontalScrollView">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:background="?android:attr/selectableItemBackground"
+                style="@android:style/Widget.Holo.Button.Borderless"
+                android:onClick="setHome"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Events"
+                android:background="?android:attr/selectableItemBackground"
+                style="@android:style/Widget.Holo.Button.Borderless"
+                android:onClick="setEvents"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Friends"
+                android:background="?android:attr/selectableItemBackground"
+                style="@android:style/Widget.Holo.Button.Borderless"
+                android:onClick="setFriends"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Groups"
+                android:background="?android:attr/selectableItemBackground"
+                style="@android:style/Widget.Holo.Button.Borderless"
+                android:onClick="setGroups"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Professional Services"
+                android:background="?android:attr/selectableItemBackground"
+                style="@android:style/Widget.Holo.Button.Borderless"
+                android:onClick="setProfessionalServices"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/horizontalScrollView" />
+
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_action"
+        android:background="@drawable/circle"
+        android:id="@+id/createEvent"
+        android:layout_gravity="right|bottom"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="createNewEvent"/>
+
+</RelativeLayout>

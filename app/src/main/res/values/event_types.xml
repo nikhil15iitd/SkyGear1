@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="event_types">
+        <item>Birthday</item>
+        <item>Anniversary</item>
+        <item>Family Get Together</item>
+        <item>Business Meet</item>
+        <item>Dinner Party</item>
+        <item>Kitty Party</item>
+        <item>Baby Shower</item>
+        <item>Bachelor Party</item>
+        <item>Bachelorette Party</item>
+        <item>Office Party</item>
+    </string-array>
+</resources>
