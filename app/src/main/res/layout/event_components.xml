@@ -79,72 +79,114 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/type"
+                android:id="@+id/guest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Event : "
-                android:layout_marginTop="20dp"
-                android:textSize="20dp"/>
+                android:text="Guests : "
+                android:textSize="20sp"
+                android:layout_marginTop="30dp"
+                android:layout_alignParentStart="true" />
 
             <Spinner
-                android:id="@+id/eventType"
+                android:id="@+id/guests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown"
-                android:layout_toRightOf="@+id/type"/>
+                android:layout_toRightOf="@+id/guest"
+                android:layout_toStartOf="@id/guests" />
 
             <TextView
-                android:id="@+id/themes"
+                android:id="@+id/food"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/eventType"
-                android:text="Theme: "
-                android:layout_marginTop="20dp"
+                android:text="Food : "
+                android:layout_marginTop="60dp"
+                android:layout_below="@id/guest"
                 android:textSize="20dp"/>
 
             <Spinner
-                android:id="@+id/themeType"
+                android:id="@+id/foods"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown"
-                android:layout_below="@+id/eventType"
-                android:layout_toRightOf="@+id/themes"/>
+                android:layout_below="@id/guests"
+                android:layout_toRightOf="@+id/food"/>
 
             <TextView
-                android:id="@+id/venues"
+                android:id="@+id/decoration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/themeType"
-                android:text="Venue: "
-                android:layout_marginTop="20dp"
-                android:textSize="20dp"/>
+                android:text="Decorations: "
+                android:textSize="20dp"
+                android:layout_marginTop="60dp"
+                android:layout_below="@id/food"
+                android:layout_alignParentStart="true" />
 
             <Spinner
-                android:id="@+id/venue"
+                android:id="@+id/decorations"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown"
-                android:layout_below="@+id/themeType"
-                android:layout_toRightOf="@+id/venues"/>
+                android:layout_below="@+id/foods"
+                android:layout_toRightOf="@+id/decoration"/>
 
             <TextView
-                android:id="@+id/info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/venue"
-                android:text="Date: "
-                android:layout_marginTop="20dp"
-                android:textSize="20dp"/>
-
-            <DatePicker
-                android:id="@+id/pickerdate"
+                android:id="@+id/photographer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/info"
-                android:layout_alignStart="@+id/info" />
+                android:layout_below="@id/decoration"
+                android:text="Photographer: "
+                android:layout_marginTop="60dp"
+                android:textSize="20dp"/>
+
+            <Spinner
+                android:id="@+id/photographers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"
+                android:layout_below="@+id/decorations"
+                android:layout_toRightOf="@+id/photographer"/>
+
+            <TextView
+                android:id="@+id/videographer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/photographer"
+                android:text="Videographer: "
+                android:layout_marginTop="60dp"
+                android:textSize="20dp"/>
+
+            <Spinner
+                android:id="@+id/videographers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"
+                android:layout_below="@+id/photographers"
+                android:layout_toRightOf="@+id/videographer"/>
+
+            <TextView
+                android:id="@+id/entertainment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/videographer"
+                android:text="Entertainment: "
+                android:layout_marginTop="60dp"
+                android:textSize="20dp"/>
+
+            <Spinner
+                android:id="@+id/entertainments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"
+                android:layout_below="@+id/videographers"
+                android:layout_toRightOf="@+id/entertainment"/>
+
 
         </RelativeLayout>
     </ScrollView>

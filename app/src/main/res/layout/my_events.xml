@@ -77,16 +77,16 @@
         android:layout_below="@+id/horizontalScrollView" />
 
     <ImageButton
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@drawable/ic_action"
         android:background="@drawable/circle"
         android:id="@+id/createEvent"
         android:layout_gravity="right|bottom"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="0dp"
+        android:onClick="createNewEvent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="createNewEvent"/>
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
