@@ -1,6 +1,7 @@
 package com.example.nikhil.skygear1;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +12,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 
 /**
@@ -22,6 +28,11 @@ public class CreateEvent extends Activity {
     DatePicker pickerDate;
     TextView info;
 
+    //Variables to hold form data
+    String curEventType;
+    String curVenue;
+    String curTheme;
+    String curDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,11 +115,11 @@ public class CreateEvent extends Activity {
                 today.get(Calendar.YEAR),
                 today.get(Calendar.MONTH),
                 today.get(Calendar.DAY_OF_MONTH),
-                new DatePicker.OnDateChangedListener(){
+                new DatePicker.OnDateChangedListener() {
 
                     @Override
                     public void onDateChanged(DatePicker view,
-                                              int year, int monthOfYear,int dayOfMonth) {
+                                              int year, int monthOfYear, int dayOfMonth) {
                         Toast.makeText(getApplicationContext(),
                                 "onDateChanged", Toast.LENGTH_SHORT).show();
 
@@ -117,7 +128,8 @@ public class CreateEvent extends Activity {
                                         "Month of Year: " + monthOfYear + "\n" +
                                         "Day of Month: " + dayOfMonth);
 
-                    }});
+                    }
+                });
     }
 
     @Override
@@ -157,6 +169,52 @@ public class CreateEvent extends Activity {
 
             }
         });
+    }
+
+    private class AsyncCallWS extends AsyncTask<String, Void, Void>{
+        @Override
+        protected Void doInBackground(String... params){
+            // HTTP Post
+            try {
+                JSONObject jsonobj = new JSONObject();
+                if(curEventType!=null && curDate!=null && curTheme!=null && curVenue!=null){
+                    jsonobj.put("Event Type",curEventType);
+                    jsonobj.put("Venue",curVenue);
+                    jsonobj.put("Theme", curTheme);
+                    jsonobj.put("Date", curDate);
+                    URL url = new URL("http://192.168.1.3:3000/");
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setDoOutput(true);
+                    urlConnection.setDoInput(true);
+                    urlConnection.setRequestProperty("Content-Type", "application/json");
+                    urlConnection.setRequestProperty("Accept", "application/json");
+                    urlConnection.setRequestMethod("POST");
+
+                    OutputStreamWriter wr = new OutputStreamWriter(urlConnection.getOutputStream());
+                    wr.write(jsonobj.toString());
+                    wr.flush();
+                }
+            } catch (Exception e ) {
+                System.out.println(e.getMessage());
+                e.getMessage();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+
+        }
     }
 
 }
