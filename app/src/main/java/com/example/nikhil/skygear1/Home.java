@@ -7,15 +7,32 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.android.volley.Cache;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.nikhil.skygear1.listview.adapter.FeedListAdapter;
+import com.example.nikhil.skygear1.listview.app.AppController;
+import com.example.nikhil.skygear1.listview.data.FeedItem;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
+
+import static com.android.volley.Request.Method;
 
 /**
  * Created by nikhil on 22-08-2015.
  */
 public class Home extends Activity {
+    private static final String TAG = Home.class.getSimpleName();
     private ListView listView;
     private ListViewAdapter listAdapter;
 
@@ -25,14 +42,21 @@ public class Home extends Activity {
     private boolean groupsSet = false;
     private boolean professionalServicesSet = false;
 
+    private FeedListAdapter feedAdapter;
+    private List<FeedItem> feedItems;
+
+    //Set URL feed here
+    private String URL_FEED = "http://api.androidhive.info/feed/feed.json";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
         listView = (ListView) findViewById(R.id.listView);
-        listAdapter = new ListViewAdapter(this, R.layout.list_item_layout, getData());
-        listView.setAdapter(listAdapter);
+        //listAdapter = new ListViewAdapter(this, R.layout.list_item_layout, getData());
+        //listView.setAdapter(listAdapter);
 
+        /*
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 ImageItem item = (ImageItem) parent.getItemAtPosition(position);
@@ -45,6 +69,93 @@ public class Home extends Activity {
                 startActivity(intent);
             }
         });
+        */
+
+        feedItems = new ArrayList<FeedItem>();
+
+        feedAdapter = new FeedListAdapter(this, feedItems);
+        listView.setAdapter(feedAdapter);
+
+        // These two lines not needed,
+        // just to get the look of facebook (changing background color & hiding the icon)
+        //getActionBar().setBackgroundDrawable(new ColorDrawable(parseColor("#3b5998")));
+        //getActionBar().setIcon(
+        //        new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+
+        // We first check for cached request
+        Cache cache = AppController.getInstance().getRequestQueue().getCache();
+        Cache.Entry entry = cache.get(URL_FEED);
+        if (entry != null) {
+            // fetch the data from cache
+            try {
+                String data = new String(entry.data, "UTF-8");
+                try {
+                    parseJsonFeed(new JSONObject(data));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            // making fresh volley request and getting json
+            JsonObjectRequest jsonReq = new JsonObjectRequest(Method.GET,
+                    URL_FEED, null, new Response.Listener<JSONObject>() {
+
+                @Override
+                public void onResponse(JSONObject response) {
+                    VolleyLog.d(TAG, "Response: " + response.toString());
+                    if (response != null) {
+                        parseJsonFeed(response);
+                    }
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.d(TAG, "Error: " + error.getMessage());
+                }
+            });
+
+            // Adding request to volley request queue
+            AppController.getInstance().addToRequestQueue(jsonReq);
+        }
+        
+    }
+
+    private void parseJsonFeed(JSONObject response) {
+        try {
+            JSONArray feedArray = response.getJSONArray("feed");
+
+            for (int i = 0; i < feedArray.length(); i++) {
+                JSONObject feedObj = (JSONObject) feedArray.get(i);
+
+                FeedItem item = new FeedItem();
+                item.setId(feedObj.getInt("id"));
+                item.setName(feedObj.getString("name"));
+
+                // Image might be null sometimes
+                String image = feedObj.isNull("image") ? null : feedObj
+                        .getString("image");
+                item.setImge(image);
+                item.setStatus(feedObj.getString("status"));
+                item.setProfilePic(feedObj.getString("profilePic"));
+                item.setTimeStamp(feedObj.getString("timeStamp"));
+
+                // url might be null sometimes
+                String feedUrl = feedObj.isNull("url") ? null : feedObj
+                        .getString("url");
+                item.setUrl(feedUrl);
+
+                feedItems.add(item);
+            }
+
+            // notify data changes to list adapater
+            feedAdapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
